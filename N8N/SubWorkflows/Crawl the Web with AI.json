@@ -1,0 +1,79 @@
+{
+  "name": "Crawl Web With AI - New Lead",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "query"
+            }
+          ]
+        }
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        272,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/responses",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer api-key-here"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"gpt-4o-mini\",\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You browse the web and find relevant data and information. Return the results as plain text.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"{{$json.query}}\"\n    }\n  ],\n  \"tools\": [\n    { \"type\": \"web_search\" }\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        544,
+        352
+      ],
+      "id": "a4230c27-684a-47cc-94b2-3bbd226199db",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "14332a68-c119-4276-bfcd-c4ae6fbfd236",
+  "meta": {
+    "instanceId": "ab05fcb11decf007211935032fec285903aa399f2f9b9ef685c491d3c0a7d8e0"
+  },
+  "id": "vBzWTPgLXycHqTyk",
+  "tags": []
+}
